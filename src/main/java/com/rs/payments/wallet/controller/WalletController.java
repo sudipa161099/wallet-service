@@ -38,6 +38,7 @@ public class WalletController {
                     @ApiResponse(
                             responseCode = "404",
                             description = "User not found"
+                            
                     )
             }
     )
