@@ -1,5 +1,6 @@
 package com.rs.payments.wallet.service.impl;
 
+import com.rs.payments.wallet.exception.BadRequestException;
 import com.rs.payments.wallet.exception.ResourceNotFoundException;
 import com.rs.payments.wallet.model.User;
 import com.rs.payments.wallet.model.Wallet;
@@ -8,6 +9,7 @@ import com.rs.payments.wallet.repository.WalletRepository;
 import com.rs.payments.wallet.service.WalletService;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -23,9 +25,15 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
+    @Transactional
     public Wallet createWalletForUser(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (user.getWallet() != null) {
+            throw new BadRequestException("User already has a wallet");
+        }
+
 
         Wallet wallet = new Wallet();
         wallet.setBalance(BigDecimal.ZERO);

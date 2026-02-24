@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Email;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +17,11 @@ public class CreateUserRequest {
     @Schema(description = "Username of the user", example = "johndoe")
     private String username;
 
+//    @NotBlank
+//    @Schema(description = "Email address of the user", example = "john.doe@example.com")
+//    private String email;
+
     @NotBlank
-    @Schema(description = "Email address of the user", example = "john.doe@example.com")
+    @Email
     private String email;
 }

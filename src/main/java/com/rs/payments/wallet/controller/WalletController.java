@@ -30,9 +30,9 @@ public class WalletController {
             summary = "Create a new wallet for a user",
             description = "Creates a new wallet for the specified user ID with a zero balance.",
             responses = {
-                    
+
                     @ApiResponse(
-                            responseCode = "200",
+                            responseCode = "201",
                             description = "Wallet created successfully",
                             content = @Content(schema = @Schema(implementation = Wallet.class))
                     ),
@@ -46,6 +46,7 @@ public class WalletController {
     @PostMapping
     public ResponseEntity<Wallet> createWallet(@Valid @RequestBody CreateWalletRequest request) {
         Wallet wallet = walletService.createWalletForUser(request.getUserId());
-        return ResponseEntity.ok(wallet);
+        //return ResponseEntity.ok(wallet);
+        return ResponseEntity.status(201).body(wallet);
     }
 }
