@@ -30,6 +30,7 @@ public class WalletController {
             summary = "Create a new wallet for a user",
             description = "Creates a new wallet for the specified user ID with a zero balance.",
             responses = {
+                    
                     @ApiResponse(
                             responseCode = "200",
                             description = "Wallet created successfully",
