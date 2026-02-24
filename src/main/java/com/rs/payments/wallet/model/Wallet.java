@@ -30,7 +30,7 @@ public class Wallet {
     private UUID id;
 
     @OneToOne
-   // @JoinColumn(name = "user_id", unique = true, nullable = false)
+    //@JoinColumn(name = "user_id", unique = true, nullable = false)
     @JoinColumn(name = "user_id", unique = true)
     @Schema(description = "User who owns the wallet")
     private User user;
