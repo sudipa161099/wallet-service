@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @RestController
@@ -67,6 +68,11 @@ public class WalletController {
         return ResponseEntity.ok(wallet);
     }
 
+    @GetMapping("/{id}/balance")
+    public ResponseEntity<BigDecimal> getBalance(@PathVariable UUID id) {
 
+        BigDecimal balance = walletService.getBalance(id);
+        return ResponseEntity.ok(balance);
+    }
 }
 
