@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/users")
 @Tag(name = "User Management", description = "APIs for managing users")
@@ -43,11 +45,18 @@ public class UserController {
     )
     @PostMapping
     public ResponseEntity<User> createUser(@Valid @RequestBody CreateUserRequest request) {
+
         User user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
+
         User created = userService.createUser(user);
-      //  return ResponseEntity.ok(created);
-        return ResponseEntity.status(201).body(user);
+
+        URI location = URI.create("/users/" + created.getId());
+
+        return ResponseEntity.created(location).body(created);
     }
+
+
+
 }

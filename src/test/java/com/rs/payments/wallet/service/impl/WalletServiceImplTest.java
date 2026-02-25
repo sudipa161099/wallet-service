@@ -16,8 +16,14 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class WalletServiceImplTest {
@@ -34,29 +40,21 @@ class WalletServiceImplTest {
     @Test
     @DisplayName("Should create wallet for existing user")
     void shouldCreateWalletForExistingUser() {
-        // Given
         UUID userId = UUID.randomUUID();
         User user = new User();
         user.setId(userId);
-        
+
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        // The service saves the user, which cascades to wallet. 
-        // We mock save to return the user.
         when(userRepository.save(user)).thenReturn(user);
 
-        // When
         Wallet result = walletService.createWalletForUser(userId);
 
-        // Then
         assertNotNull(result);
         assertEquals(BigDecimal.ZERO, result.getBalance());
-        assertEquals(walletService.createWalletForUser(userId).getBalance(), BigDecimal.ZERO);
-        
-        // Verify interactions
-        verify(userRepository, times(2)).findById(userId); // Called twice due to second assert
-        verify(userRepository, times(2)).save(user);
-    }
 
+        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).save(user);
+    }
     @Test
     @DisplayName("Should throw exception when user not found")
     void shouldThrowExceptionWhenUserNotFound() {
