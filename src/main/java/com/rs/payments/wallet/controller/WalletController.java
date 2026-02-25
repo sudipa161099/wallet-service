@@ -57,5 +57,16 @@ public class WalletController {
         Wallet wallet = walletService.deposit(id, request.getAmount());
         return ResponseEntity.ok(wallet);
     }
+
+    @PostMapping("/{id}/withdraw")
+    public ResponseEntity<Wallet> withdraw(
+            @PathVariable UUID id,
+            @Valid @RequestBody DepositRequest request) {
+
+        Wallet wallet = walletService.withdraw(id, request.getAmount());
+        return ResponseEntity.ok(wallet);
+    }
+
+
 }
 
